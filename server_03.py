@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import json, socket, select, time
 from log_config import *
 print('Hello, Aina!')
