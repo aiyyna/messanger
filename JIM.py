@@ -1,33 +1,76 @@
-import socket, json
+import time, json
 
-class JIM_msg:
-	sms = input('write your message or "q" for exit')
-			if sms == 'presence':
-				sms = {
+class JIM_msg():
+
+	def create_message(self):
+		sms = input('write your message or "q" for exit\n')
+		if sms == 'presence':
+			sms = {
 				"action": "presence",
 				"time": time.ctime(time.time()) + "\n",
 				"type": "status",
 				"user": {
-				"account_name": "C0deMaver1ck",
-				"status": "Yep, I am here!"
+					"account_name": self.user_id,
+					"status": "Yep, I am here!"
 				}
-				}
-			elif sms == 'q':
-				sms = {
+			}
+		elif sms == 'q':
+			sms = {
 				"action": "quit",
 				"time": time.ctime(time.time()) + "\n",
-				}
-				print('Good bye')
-
-			else:
-				sms = {
+			}
+			sys.exit()
+			print('Good bye')
+		else:
+			to = input('Кому вы хотите послать сообщение? ')
+			sms = {
 				"action": "msg",
 				"time": time.ctime(time.time()) + "\n",
-				"to": "status",
-				"from": "account_name"
+				"to": to,
+				"from": self.user_id,
 				"encoding": "ascii",
 				"message": sms
-				}
+			}
+		print('='*20, 'Сообщение сформировано', '='*20)
+		return sms
 
-class JIM_res:
-	pass
+	def encode_msg(self, msg):
+		
+		sms = json.dumps(msg).encode()
+		return sms
+
+	def decode_msg(self, msg):
+		sms = json.loads(msg.decode())
+		return sms
+
+	def create_message(self):
+		sms = input('write your message or "q" for exit\n')
+		if sms == 'presence':
+			sms = {
+				"action": "presence",
+				"time": time.ctime(time.time()) + "\n",
+				"type": "status",
+				"user": {
+					"account_name": self.user_id,
+					"status": "Yep, I am here!"
+				}
+			}
+		elif sms == 'q':
+			sms = {
+				"action": "quit",
+				"time": time.ctime(time.time()) + "\n",
+			}
+			sys.exit()
+			print('Good bye')
+		else:
+			to = input('Кому вы хотите послать сообщение? ')
+			sms = {
+				"action": "msg",
+				"time": time.ctime(time.time()) + "\n",
+				"to": to,
+				"from": self.user_id,
+				"encoding": "ascii",
+				"message": sms       
+			}
+		print('='*20, 'Сообщение сформировано', '='*20)
+		return sms
