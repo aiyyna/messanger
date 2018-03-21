@@ -25,7 +25,7 @@ class Chat():
 			user.send_message(msg)
 
 
-class Chat_Controller():
+class Chat_controller():
 	def __init__(self):
 		self.list_chats = {}
 
@@ -39,9 +39,19 @@ class Chat_Controller():
 			if chat_id in self.list_chats:
 				chats.append(self.list_chats[chat_id])
 		return chats
+
+	def get_chats_with_user(self, user_id): #возвращает все чаты, в которых состоит юзер
+		chats_with_user = []
+		for chat_id in self.list_chats.keys():
+			chat = self.list_chats[chat_id]
+			list_users_id = chat.get_list_user_id()
+			if user_id in list_users_id:
+				chats_with_user.append(chat)
+		return chats_with_user
+
 		
 if __name__ == '__main__':
-	control = Chat_Controller()
+	control = Chat_controller()
 	chat1 = Chat('home', 'aina')
 	control.add_chat(chat1)
 	chat1.add_user('vlad')

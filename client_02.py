@@ -14,7 +14,7 @@ class Client():
 		self.s = socket.socket(family = socket.AF_INET, type = socket.SOCK_STREAM, proto = 0)
 		self.s.connect(('localhost', 8888))
 		# list_chats = self.server_get_chats(self.user_id)
-		self.chat_controller = Chat_Controller() # Chat_Controller(list_chats)
+		self.chat_controller = Chat_controller() # Chat_Controller(list_chats)
 
 	def authorization(self, user_id, password):
 		self.user_id = user_id
@@ -55,7 +55,11 @@ class Interface():
 		try:
 			self.current_chat
 		except:
-			self.current_chat = self.list_contacts[0]
+			if len(self.list_contacts) > 0:
+				self.current_chat = self.list_contacts[0]
+			else:
+				self.current_chat = None
+
 		input_chat = input("Type contact for chating (%s continue): " % self.current_chat)
 		if input_chat != "":
 			self.current_chat = input_chat
@@ -74,11 +78,11 @@ class Interface():
 client1 = Client()
 console_interface = Interface()
 
-console_interface.list_contacts = client1.chat_controller.get_list_chats()
-
 user_id, password = console_interface.authorization()
 log_in = client1.authorization(user_id, password)
 print('='*10, 'авторизация прошла успешно!', '='*10)
+
+console_interface.list_contacts = client1.chat_controller.get_chats_with_user(client1.user_id)
 
 while True:
 	message = console_interface.get_msg()

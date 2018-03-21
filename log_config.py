@@ -1,21 +1,34 @@
+#!/usr/bin/python3
+
 import logging
 
-import logging.handlers
 def log_init():
 	log_format = '%(asctime)s :%(levelname)s : %(module)s : %(funcName)s :%(message)s'
-	logging.basicConfig(
-		filename='logging_file', 
-		level=logging.DEBUG,
-		filemode = 'w',
-		format = log_format,
-	)
 
+	logFormatter = logging.Formatter(log_format)
+	my_logger = logging.getLogger()
 
-	logging.getLogger().addHandler(logging.StreamHandler())
-	logger = logging.getLogger()
-	
-#	handler = logging.StreamHandler()
-#	formatter = logging.Formatter(log_format)
-#	handler.setFormatter(formatter)
-#	logger.addHandler(handler)
+	fileHandler = logging.FileHandler("messanger_server.log")
+	fileHandler.setFormatter(logFormatter)
+	my_logger.addHandler(fileHandler)
 
+	consoleHandler = logging.StreamHandler()
+	consoleHandler.setFormatter(logFormatter)
+	my_logger.addHandler(consoleHandler)
+
+	my_logger.setLevel(logging.DEBUG)
+
+	logger = my_logger
+
+	return my_logger
+
+logger = log_init()
+
+if __name__ == '__main__':
+	logger = log_init()
+
+	logger.debug('debug message')
+	logger.info('info message')
+	logger.warn('warn message')
+	logger.error('error message')
+	logger.critical('critical message')

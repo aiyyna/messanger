@@ -13,9 +13,7 @@ class User():
 			status_str = "online"
 		else:
 			status_str = "offline"
-		return 'This is objects %s with status %s\n' % (self.user_id, status_str)
-		
-
+		return 'This is objects %s with status %s\n' % (self.user_id, status_str)		
 
 	def send_message(self, message):
 		jim_msg = JIM_msg()
@@ -35,10 +33,13 @@ class User():
 		
 	def set_status_off(self):
 		self.status = False
-		# self.socket.close()
+		self.socket.close()
 
 	def is_online(self):
 		return True 
+
+	def user_socket(self):
+		return self.socket
 
 class User_controller():
 	def __init__(self):
@@ -47,7 +48,7 @@ class User_controller():
 	def add_user(self, user):
 		self.list_users[user.user_id] = user
 
-	def  users_is_on(self):
+	def users_is_on(self):
 		users = []
 		for key in self.list_users.keys():
 			user = self.list_users[key]
@@ -62,6 +63,9 @@ class User_controller():
 			if user_id in self.list_users.keys():
 				users.append(self.list_users[user_id])
 		return users
+
+	def get_number_users(self):
+		return len(self.list_users.keys())
 
 if __name__ == '__main__':
 
